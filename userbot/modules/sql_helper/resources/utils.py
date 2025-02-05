@@ -2,17 +2,9 @@ import asyncio, sys, heroku3
 from random import randint
 from telethon.tl.functions.channels import CreateChannelRequest
 from telethon.tl.functions.contacts import UnblockRequest
-from userbot import BOT_TOKEN, HEROKU_APIKEY, HEROKU_APPNAME, bot, me as b
+from userbot import BOT_TOKEN, bot, me as b
 
-heroku_api = "https://api.heroku.com"
-if HEROKU_APPNAME is not None and HEROKU_APIKEY is not None:
-    Heroku = heroku3.from_key(HEROKU_APIKEY)
-    app = Heroku.app(HEROKU_APPNAME)
-    heroku_var = app.config()
-else:
-    app = None
-
-async def autopilot():
+async def autobotlog():
     desc = "⚡ Brend Userbot Botlog."
     try:
         qrup = await bot(CreateChannelRequest(title="⚡ Brend Botlog", about=desc, megagroup=True))
@@ -21,8 +13,7 @@ async def autopilot():
         LOGS.error(str(e))
     if not str(qrup_id).startswith("-100"):
         qrup_id = int(f"-100{str(qrup_id)}")
-    heroku_var["BOTLOG"] = "True"
-    heroku_var["BOTLOG_CHATID"] = qrup_id
+    return qrup_id
 
 async def brendautobot():
     if BOT_TOKEN:
@@ -86,7 +77,7 @@ async def brendautobot():
             await asyncio.sleep(1)
             await bot.send_message(bf, f"@{username}")
             await asyncio.sleep(1)
-            await bot.send_message(bf, f"✨ Sahib ~ {adi} ✨\n\n⚡ Powered By ~ @BrendUserbot ⚡")
+            await bot.send_message(bf, f"✨ Sahibim ~ {adi} ✨\n\n⚡ Powered By ~ @BrendUserbot ⚡")
             await bot.send_message(b, f"**İstifadəçi Adı @{username} olan telegram botu uğurla tamamlandı**",)
             heroku_var["BOT_USERNAME"] = username
             heroku_var["BOT_TOKEN"] = token
@@ -105,15 +96,14 @@ async def brendautobot():
         await asyncio.sleep(1)
         await bot.send_message(bf, f"@{username}")
         await asyncio.sleep(1)
-        await bot.send_message(bf, f"☕️ {adi} üçün yaradılmışam")
+        await bot.send_message(bf, f"⚡ {adi} üçün yaradılmışam")
         await asyncio.sleep(3)
         await bot.send_message(bf, "/setdescription")
         await asyncio.sleep(1)
         await bot.send_message(bf, f"@{username}")
         await asyncio.sleep(1)
         await bot.send_message(bf, f"👑 Sahib ~ {adi} 👑\n\n⚡ Powered By ~ @BrendUserbot ⚡")
-        heroku_var["BOT_USERNAME"] = username
-        heroku_var["BOT_TOKEN"] = token
+        return username, token
     else:
-        await bot.send_message(b, "Lütfən, @Botfather ünvanında Telegram Botlarınızdan bəzilərini silin və ya bot nişanları ilə Var BOT_TOKEN təyin edin")
+        await bot.send_message(b, "Lütfən, @Botfather ünvanında Telegram Botlarınızdan bəzilərini silin və ya özünüz BOT_TOKEN təyin edin")
         sys.exit(1)
