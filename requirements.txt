@@ -5,3 +5,4 @@ numpy
 pybase64
 pydub
 requests
+python-dotenv
