@@ -7,7 +7,6 @@ from . import BRAIN_CHECKER, LOGS, bot, PLUGIN_ID, BREND_VERSION, BOT_TOKEN, BOT
 from .modules import ALL_MODULES
 import userbot.modules.sql_helper.mesaj_sql as MSJ_SQL
 from random import choice
-from userbot.modules.sql_helper.resources.utils import brendautobot, autopilot
 
 AFKSTR = [
     "`Mən indi tələsirəm, daha sonra bir mesaj göndərə bilməzsən?😬\nOnsuz da yenə gələcəm.`",
