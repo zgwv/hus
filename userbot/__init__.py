@@ -4,25 +4,17 @@ from sys import version_info
 from logging import basicConfig, getLogger, INFO, DEBUG
 from distutils.util import strtobool as sb
 from requests import get
+from dotenv import load_dotenv
 from telethon.tl.functions.channels import JoinChannelRequest
 from telethon.sync import TelegramClient, custom
 from telethon.sessions import StringSession
 from telethon.events import callbackquery, InlineQuery, NewMessage
 from math import ceil
 
-CONSOLE_LOGGER_VERBOSE = sb(os.environ.get("CONSOLE_LOGGER_VERBOSE", "False"))
-
-if CONSOLE_LOGGER_VERBOSE:
-    basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s", level=DEBUG)
-else:
-    basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s",  level=INFO)
+load_dotenv(husu.env)
+basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s",  level=INFO)
 LOGS = getLogger(__name__)
 
-if version_info[0] < 3 or version_info[1] < 8:
-    LOGS.info("Ən azı python 3.9 versiyanız olmalıdır."
-              "Birdən çox xüsusiyyət bundan asılıdır. Bot bağlanır.")
-    quit(1)
-    
 BREND_VERSION = "v5"
 API_ID = int(os.environ.get("API_KEY", "1558926"))
 API_HASH = os.environ.get("API_HASH", "69c4c16e17e9f637818f2cfce8f9bce5")
@@ -37,11 +29,6 @@ LOGSPAMMER = sb(os.environ.get("LOGSPAMMER", "False"))
 
 PM_AUTO_BAN = sb(os.environ.get("PM_AUTO_BAN", "False"))
 PM_AUTO_BAN_LIMIT = int(os.environ.get("PM_AUTO_BAN_LIMIT", 4))
-
-# Heroku
-HEROKU_MEMEZ = sb(os.environ.get("HEROKU_MEMEZ", "True"))
-HEROKU_APPNAME = os.environ.get("HEROKU_APPNAME", None)
-HEROKU_APIKEY = os.environ.get("HEROKU_APIKEY", None)
 DB_URI = os.environ.get("DATABASE_URL", "sqlite:///brend.db")
 
 WARN_LIMIT = int(os.environ.get("WARN_LIMIT", 3))
@@ -56,16 +43,16 @@ PATTERNS = os.environ.get("PATTERNS", ".")
 CMD_HELP = {}
 CMD_HELP_BOT = {}
 
-LANGUAGE = os.environ.get("LANGUAGE", "DEFAULT").upper()
+LANGUAGE = os.environ.get("LANGUAGE", "AZ").upper()
 if not LANGUAGE in ["AZ"]:
-    LOGS.info("Naməlum bir dil yazdınız. Buna görə DEFAULT istifadə olunur.")
+    LOGS.info("Naməlum bir dil yazdınız. Buna görə AZ istifadə olunur.")
     LANGUAGE = "AZ"
 
 WHITELIST = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/whitelist.json').json()
 SUPPORT = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/support.json').json()
 HUSU = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/husu.json').json()
 
-SUP = [-1001197418406]
+SUP = [-1001549365260]
 BRAIN_CHECKER = []
 
 if STRING_SESSION:
@@ -75,8 +62,6 @@ else:
 
 if os.path.exists("brend.check"):
     os.remove("brend.check")
-else:
-    LOGS.info("Brain check faylı yoxdur, alınır...")
 
 URL = 'https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/brend.check'
 with open('brend.check', 'wb') as load:
