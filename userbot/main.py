@@ -79,17 +79,17 @@ def extractCommands(file):
             if not Brendpy == None:
                 Brendpy = Brendpy.group(0)
                 for Satir in Brendpy.splitlines():
-                    if (not '"""' in Satir) and (':' in Satir):
+                    if (not '""' in Satir) and (':' in Satir):
                         Satir = Satir.split(':')
-                        Isim = Satir[0]
-                        Deger = Satir[1][1:]
+                        Ad = Satir[0]
+                        Deyer = Satir[1][1:]
                                 
-                        if Isim == 'INFO':
-                            CmdHelp.add_info(Deger)
-                        elif Isim == 'WARN':
-                            CmdHelp.add_warning(Deger)
+                        if Ad == 'INFO':
+                            CmdHelp.add_info(Deyer)
+                        elif Ad == 'WARN':
+                            CmdHelp.add_warning(Deyer)
                         else:
-                            CmdHelp.set_file_info(Isim, Deger)
+                            CmdHelp.set_file_info(Ad, Deyer)
             for Əmr in Əmrler:
                 CmdHelp.add_command(Əmr, None, 'Bu plugin Brend Userbot məhsulu deyil. Hərhansısa bir açıqlama tapılmadı.')
             CmdHelp.add()
