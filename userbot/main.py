@@ -35,7 +35,7 @@ DB = connect("brend.check")
 CURSOR = DB.cursor()
 CURSOR.execute("""SELECT * FROM BRAIN1""")
 ALL_ROWS = CURSOR.fetchall()
-INVALID_PH = '\nXƏTA: Daxil olunan telefon nömrəsi yanlışdır' \
+INVALID_PH = '\nXƏTA: Daxil edilən telefon nömrəsi yanlışdır' \
              '\n Kömək: Nömrəni ölkə kodu ilə daxil edin.' \
              '\n    Telefon nömrənizi təkrar yoxlayın'
 
@@ -116,43 +116,7 @@ try:
                 PLUGIN_MESAJLAR[mesaj] = medya
             else:
                 PLUGIN_MESAJLAR[mesaj] = dmsj
-    if not PLUGIN_ID == None:
-        try:
-            KanalId = bot.get_entity(PLUGIN_ID)
-        except:
-            KanalId = "me"
-        for plugin in bot.iter_messages(KanalId, filter=InputMessagesFilterDocument):
-            if plugin.file.name and (len(plugin.file.name.split('.')) > 1) \
-                and plugin.file.name.split('.')[-1] == 'py':
-                Split = plugin.file.name.split('.')
-
-                if not os.path.exists("./userbot/modules/" + plugin.file.name):
-                    dosya = bot.download_media(plugin, "./userbot/modules/")
-                else:
-                    LOGS.info("Bu Plugin Onsuz Yüklənib" + plugin.file.name)
-                    extractCommands('./userbot/modules/' + plugin.file.name)
-                    dosya = plugin.file.name
-                    continue 
                 
-                try:
-                    spec = importlib.util.spec_from_file_location("userbot.modules." + Split[0], dosya)
-                    mod = importlib.util.module_from_spec(spec)
-
-                    spec.loader.exec_module(mod)
-                except Exception as e:
-                    LOGS.info(f"Yükləmə uğursuz oldu! Plugin xətalıdır.\n\nXəta: {e}")
-
-                    try:
-                        plugin.delete()
-                    except:
-                        pass
-
-                    if os.path.exists("./userbot/modules/" + plugin.file.name):
-                        os.remove("./userbot/modules/" + plugin.file.name)
-                    continue
-                extractCommands('./userbot/modules/' + plugin.file.name)
-    else:
-        bot.send_message("me", f"`Xaiş edirik, pluginlərin qalıcı olması üçün PLUGIN_ID'i yerləşdirin.`")
 except PhoneNumberInvalidError:
     print(INVALID_PH)
     exit(1)
@@ -166,9 +130,4 @@ if len(argv) not in (1, 3, 4):
     bot.disconnect()
 else:
 """
-loop = asyncio.get_event_loop()
-if not BOTLOG_CHATID:
-    loop.run_until_complete(autopilot())
-if not BOT_TOKEN:
-    loop.run_until_complete(brendautobot())
 bot.run_until_disconnected()
