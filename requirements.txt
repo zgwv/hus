@@ -1,8 +1,6 @@
 telethon
 telethon-session-sqlalchemy
 gitpython
-numpy
 pybase64
-pydub
 requests
 python-dotenv
