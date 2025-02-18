@@ -7,13 +7,9 @@ from telethon.tl.functions.phone import DiscardGroupCallRequest as stopvc
 from telethon.tl.functions.phone import EditGroupCallTitleRequest as settitle
 from telethon.tl.functions.phone import GetGroupCallRequest as getvc
 from telethon.tl.functions.phone import InviteToGroupCallRequest as invitetovc
-
-from googletrans import LANGUAGES, Translator
-
 from telethon.tl.types import ChatAdminRights
 from telethon import events
 from time import sleep
-from youtube_search import YoutubeSearch
 from userbot.events import register
 from userbot import bot, CMD_HELP, BOTLOG, BOTLOG_CHATID
 from userbot.cmdhelp import CmdHelp
@@ -101,105 +97,6 @@ async def change_title(brend):
     except Exception as ex:
         await brend.edit(f"**ERROR:** `{ex}`")
   
-@register(outgoing=True, pattern="^.sangmata(?: |$)(.*)")
-async def sangmata(event):
-    if event.fwd_from:
-        return 
-    if not event.reply_to_msg_id:
-       await event.edit(LANG['REPLY_TO_MSG'])
-       return
-    reply_message = await event.get_reply_message() 
-    if not reply_message.text:
-       await event.edit(LANG['REPLY_MSG'])
-       return
-    chat = "@SangMataInfo_bot"
-    sender = reply_message.sender
-    if reply_message.sender.bot:
-       await event.edit(LANG['REPLY_BOT_ERROR'])
-       return
-    await event.edit(LANG['WORKING_ON'])
-    async with bot.conversation(chat, exclusive=False) as conv:
-          response = None
-          try:
-              msg = await reply_message.forward_to(chat)
-              response = await conv.get_response(message=msg, timeout=5)
-          except YouBlockedUserError: 
-              await event.edit(LANG['BLOCKED_ERROR'])
-              return
-          except Exception as e:
-              print(e.__class__)
-          if not response:
-              await event.edit(LANG['NOT_RESPONSE'])
-          elif response.text.startswith("Forward"):
-             await event.edit(LANG['USER_PRIVACY'])
-          else: 
-             await event.edit(response.text)
-          sleep(1)
-          await bot.send_read_acknowledge(chat, max_id=(response.id+3))
-          await conv.cancel_all()
-
-
-@register(outgoing=True, pattern="^.arsiv")
-async def creation(event):
-    if not event.reply_to_msg_id:
-        await event.edit(LANG['REPLY_TO_MSG'])
-        return
-    reply_message = await event.get_reply_message() 
-    if event.fwd_from:
-        return 
-    chat = "@creationdatebot"
-    sender = reply_message.sender
-    if reply_message.sender.bot:
-       await event.edit(LANG['REPLY_TO_MSG'])
-       return
-    await event.edit(LANG['CALCULATING_TIME'])
-    async with event.client.conversation(chat) as conv:
-        try:     
-            await event.client.forward_messages(chat, reply_message)
-        except YouBlockedUserError:
-            await event.reply(f"`Hmm düşünürəmki` {chat} `əngəllənmisən. Xaiş edirik əngəli aç.`")
-            return
-        response = conv.wait_event(events.NewMessage(incoming=True,from_users=747653812))
-        response = await response
-        if response.text.startswith("Looks"):
-            await event.edit(LANG['PRIVACY_ERR'])
-        else:
-            await event.edit(f"**Hesabat hazır: **`{response.text.replace('**','')}`")
-
-
-@register(outgoing=True, pattern="^.read")
-async def brendread(event):
-    if event.fwd_from:
-        return 
-    if not event.reply_to_msg_id:
-       await event.edit(LANG['REPLY_TO_MSG'])
-       return
-    reply_message = await event.get_reply_message() 
-    if not reply_message.media:
-       await event.edit(LANG['REPLY_TO_MSG'])
-       return
-    chat = "@bacakubot"
-    sender = reply_message.sender
-    if reply_message.sender.bot:
-       await event.edit(LANG['REPLY_TO_MSG'])
-       return
-    await event.edit(LANG['READING'])
-    async with event.client.conversation(chat) as conv:
-        try:     
-            await event.client.forward_messages(chat, reply_message)
-        except YouBlockedUserError:
-            await event.reply(f"`Hmm düşünürəmki` {chat} `əngəllənmisən. Xaiş edirik əngəli aç.`")
-            return
-        response = conv.wait_event(events.NewMessage(incoming=True,from_users=834289439))
-        response = await response
-        if response.text.startswith("Please try my other cool bot:"):
-            response = conv.wait_event(events.NewMessage(incoming=True,from_users=834289439))
-            response = await response
-        if response.text == "":
-            await event.edit(LANG['OCR_ERROR'])
-        else:
-            await event.edit(f"**{LANG['SEE_SOMETHING']}: **`{response.text}`")
-
 @register(outgoing=True, pattern="^.q(?: |$)(.*)")
 async def quotly(event):
     if event.fwd_from:
@@ -286,56 +183,6 @@ async def text_to_speech(event):
         else:
             await event.edit("`Bir xəta yanadı!`")
 
-            
-@register(outgoing=True, pattern=r"^\.trt(?: |$)(.*)")
-async def _(event):
-    if event.fwd_from:
-        return
-    if "trim" in event.raw_text:
-        return
-    input_str = event.pattern_match.group(1)
-    if event.reply_to_msg_id:
-        previous_message = await event.get_reply_message()
-        text = previous_message.message
-        lan = input_str or "az"
-    elif "|" in input_str:
-        lan, text = input_str.split("|")
-    else:
-        return await event.edit("**.trt <dil kodu>** mesajlara cavab verərək")
-    text = emoji.demojize(text.strip())
-    lan = lan.strip()
-    translator = Translator()
-    try:
-        translated = translator.translate(text, dest=lan)
-        after_tr_text = translated.text
-        output_str = """**🗣️ Tərcümə**\n`{}` dilindən - `{}` dilinə
-\n📄 Mətn: `{}`""".format(
-            translated.src, lan, after_tr_text
-        )
-        await event.edit(output_str)
-    except Exception as exc:
-        await event.edit(str(exc))
-
-
-@register(outgoing=True, pattern="^.yt (.*)")
-async def _(event):
-    if event.fwd_from:
-        return
-    husu = event.pattern_match.group(1)
-    editle = await event.edit("`Proses başladılır...`")
-    results = YoutubeSearch(f"{husu}", max_results=5).to_dict()
-    yazi = "<b>💻 YOUTUBE Axtarışı</b> \n\n"
-    for ad in results:
-      yazi += (
-        f"<b><u>Başlıq</u></b> ➠ <code>{ad['title']}</code> \n"
-        f"<b><u>Kanal</u></b> ➠ <code>{ad['channel']}</code> \n"
-        f"<b><u>Müddət</u></b> ➠ <code>{ad['duration']}</code> \n"
-        f"<b><u>Baxış</u></b> ➠ <code>{ad['views']}</code> \n"
-        f"<b><u>Link</u></b> ➠  `https://www.youtube.com/watch?v={ad['id']}`\n\n"
-        )
-      await editle.edit(yazi, parse_mode="HTML")
-        
-
 @register(outgoing=True, pattern="^.tspam")
 async def tmeme(e):
     message = e.text
@@ -403,19 +250,7 @@ CmdHelp('tools').add_command(
 ).add_command(
     'tts', '<söz>', 'Sözü səsə çevirin.'
 ).add_command(
-    'trt', '<cavab>', 'Asand tərcümə modulu.'
-).add_command(
-    'yt', '<sorğu>', 'Youtube üzərində axtarış edər.'
-).add_command(
-    'sangmata', '<cavab>', 'Göstərdiyiniz istifadəçinin ad keçmişini göstərər'
-).add_command(
     'q', '<say>', 'Mətni stikerə çevirin.'
-).add_command(
-    'read', '<cavab>', 'Şəkildəki yazını oxuyun.'
-).add_command(
-    'arsiv', '<cavab>', 'Cavab verdiyiniz istifadəçinin hesabı yaratma tarxini öyrənin.'
-).add_command(
-    'trt', '<söz>', 'Asand tərcümə modulu.'
 ).add_command(
     'bvc', '', 'Səsli söhbət başladar.'
 ).add_command(
