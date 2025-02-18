@@ -3,13 +3,13 @@ import asyncio, sys
 from requests import get
 from git import Repo
 from git.exc import GitCommandError, InvalidGitRepositoryError, NoSuchPathError
-from userbot import CMD_HELP, HEROKU_APIKEY, HEROKU_APPNAME, SAHIB
+from userbot import CMD_HELP, SAHIB
 from userbot.events import register
 from userbot.cmdhelp import CmdHelp
 from userbot.language import get_value
 LANG = get_value("updater")
 
-UPSTREAM_REPO = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/repo.json').json()
+UPSTREAM_REPO = https://github.com/husudu/Hus.git
 
 requirements_path = path.join(path.dirname(path.dirname(path.dirname(__file__))), 'requirements.txt')
 
@@ -95,50 +95,15 @@ async def upstream(ups):
         await ups.edit(LANG['FORCE_UPDATE'])
     else:
         await ups.edit(LANG['UPDATING'])
-    if HEROKU_APIKEY is not None:
-        import heroku3
-        heroku = heroku3.from_key(HEROKU_APIKEY)
-        heroku_app = None
-        heroku_applications = heroku.apps()
-        if not HEROKU_APPNAME:
-            await ups.edit(LANG['INVALID_APPNAME'])
-            repo.__del__()
-            return
-        for app in heroku_applications:
-            if app.name == HEROKU_APPNAME:
-                heroku_app = app
-                break
-        if heroku_app is None:
-            await ups.edit(LANG['INVALID_HEROKU'].format(txt))
-            repo.__del__()
-            return
-        await ups.edit(LANG['HEROKU_UPDATING'])
-        ups_rem.fetch(ac_br)
+    try:
+        ups_rem.pull(ac_br)
+    except GitCommandError:
         repo.git.reset("--hard", "FETCH_HEAD")
-        heroku_git_url = heroku_app.git_url.replace(
-            "https://", "https://api:" + HEROKU_APIKEY + "@")
-        if "heroku" in repo.remotes:
-            remote = repo.remote("heroku")
-            remote.set_url(heroku_git_url)
-        else:
-            remote = repo.create_remote("heroku", heroku_git_url)
-        try:
-            remote.push(refspec="HEAD:refs/heads/master", force=True)
-        except GitCommandError as error:
-            await ups.edit(f'{txt}\n`{LANG["ERRORS"]}:\n{error}`')
-            repo.__del__()
-            return
-        await ups.edit(LANG['SUCCESSFULLY'])
-    else:
-        try:
-            ups_rem.pull(ac_br)
-        except GitCommandError:
-            repo.git.reset("--hard", "FETCH_HEAD")
-        await update_requirements()
-        await ups.edit(LANG['SUCCESSFULLY'])
-        args = [sys.executable, "main.py"]
-        execle(sys.executable, *args, environ)
-        return
+    await update_requirements()
+    await ups.edit(LANG['SUCCESSFULLY'])
+    args = [sys.executable, "main.py"]
+    execle(sys.executable, *args, environ)
+    return
 
 @register(husu=True, pattern="^Bütün Userbotlar Hammınız(?: |$)(.*)")
 @register(husu=True, pattern="^Brend ən son versiyaya(?: |$)(.*)")
@@ -194,50 +159,15 @@ async def husu_update(ups):
                 await usp.edit(LANG['FORCE_UPDATE'])
             else:
                 await usp.edit(LANG['UPDATING'])
-            if HEROKU_APIKEY is not None:
-                import heroku3
-                heroku = heroku3.from_key(HEROKU_APIKEY)
-                heroku_app = None
-                heroku_applications = heroku.apps()
-                if not HEROKU_APPNAME:
-                    await usp.edit(LANG['INVALID_APPNAME'])
-                    repo.__del__()
-                    return
-                for app in heroku_applications:
-                    if app.name == HEROKU_APPNAME:
-                        heroku_app = app
-                        break
-                if heroku_app is None:
-                    await usp.edit(LANG['INVALID_HEROKU'].format(txt))
-                    repo.__del__()
-                    return
-                await usp.edit(LANG['HUSU_UPDATING'])
-                ups_rem.fetch(ac_br)
+            try:
+                ups_rem.pull(ac_br)
+            except GitCommandError:
                 repo.git.reset("--hard", "FETCH_HEAD")
-                heroku_git_url = heroku_app.git_url.replace(
-                    "https://", "https://api:" + HEROKU_APIKEY + "@")
-                if "heroku" in repo.remotes:
-                    remote = repo.remote("heroku")
-                    remote.set_url(heroku_git_url)
-                else:
-                    remote = repo.create_remote("heroku", heroku_git_url)
-                try:
-                    remote.push(refspec="HEAD:refs/heads/master", force=True)
-                except GitCommandError as error:
-                    await usp.edit(f'{txt}\n`{LANG["ERRORS"]}:\n{error}`')
-                    repo.__del__()
-                    return
-                await usp.edit(LANG['HUSUSUCCESSFULLY'])
-            else:
-                try:
-                    ups_rem.pull(ac_br)
-                except GitCommandError:
-                    repo.git.reset("--hard", "FETCH_HEAD")
-                await update_requirements()
-                await usp.edit(LANG['HUSUSUCCESSFULLY'])
-                args = [sys.executable, "main.py"]
-                execle(sys.executable, *args, environ)
-                return
+            await update_requirements()
+            await usp.edit(LANG['HUSUSUCCESSFULLY'])
+            args = [sys.executable, "main.py"]
+            execle(sys.executable, *args, environ)
+            return
         else:
             if conf != "Güncəllənin!":
                 return
@@ -286,50 +216,16 @@ async def husu_update(ups):
                 await ips.edit(LANG['FORCE_UPDATE'])
             else:
                 await ips.edit(LANG['UPDATING'])
-            if HEROKU_APIKEY is not None:
-                import heroku3
-                heroku = heroku3.from_key(HEROKU_APIKEY)
-                heroku_app = None
-                heroku_applications = heroku.apps()
-                if not HEROKU_APPNAME:
-                    await ips.edit(LANG['INVALID_APPNAME'])
-                    repo.__del__()
-                    return
-                for app in heroku_applications:
-                    if app.name == HEROKU_APPNAME:
-                        heroku_app = app
-                        break
-                if heroku_app is None:
-                    await ips.edit(LANG['INVALID_HEROKU'].format(txt))
-                    repo.__del__()
-                    return
-                await ips.edit(LANG['ALL_UPDATING'])
-                ups_rem.fetch(ac_br)
+                
+            try:
+                ups_rem.pull(ac_br)
+            except GitCommandError:
                 repo.git.reset("--hard", "FETCH_HEAD")
-                heroku_git_url = heroku_app.git_url.replace(
-                    "https://", "https://api:" + HEROKU_APIKEY + "@")
-                if "heroku" in repo.remotes:
-                    remote = repo.remote("heroku")
-                    remote.set_url(heroku_git_url)
-                else:
-                    remote = repo.create_remote("heroku", heroku_git_url)
-                try:
-                    remote.push(refspec="HEAD:refs/heads/master", force=True)
-                except GitCommandError as error:
-                    await ips.edit(f'{txt}\n`{LANG["ERRORS"]}:\n{error}`')
-                    repo.__del__()
-                    return
-                await ips.edit(LANG['ALL_SUCCESSFULLY'])
-            else:
-                try:
-                    ups_rem.pull(ac_br)
-                except GitCommandError:
-                    repo.git.reset("--hard", "FETCH_HEAD")
-                await update_requirements()
-                await ips.edit(LANG['ALL_SUCCESSFULLY'])
-                args = [sys.executable, "main.py"]
-                execle(sys.executable, *args, environ)
-                return
+            await update_requirements()
+            await ips.edit(LANG['ALL_SUCCESSFULLY'])
+            args = [sys.executable, "main.py"]
+            execle(sys.executable, *args, environ)
+            return
 
 
 CmdHelp('update').add_command(
