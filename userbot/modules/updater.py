@@ -9,7 +9,7 @@ from userbot.cmdhelp import CmdHelp
 from userbot.language import get_value
 LANG = get_value("updater")
 
-UPSTREAM_REPO = https://github.com/husudu/Hus.git
+UPSTREAM_REPO = "https://github.com/husudu/Hus.git"
 
 requirements_path = path.join(path.dirname(path.dirname(path.dirname(__file__))), 'requirements.txt')
 
