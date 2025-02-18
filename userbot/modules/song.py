@@ -1,12 +1,8 @@
-import asyncio, os, json, base64
-from requests import get
 from telethon import events
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from userbot import bot, CMD_HELP, DEFAULT_NAME
+from userbot import bot, CMD_HELP
 from userbot.events import register
-from random import randint
 from userbot.cmdhelp import CmdHelp
-from telethon.tl.types import DocumentAttributeAudio
 from userbot.language import get_value
 LANG = get_value("song")
 
