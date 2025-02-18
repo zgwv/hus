@@ -2,7 +2,6 @@ import os
 from re import compile
 from sys import version_info
 from logging import basicConfig, getLogger, INFO, DEBUG
-from distutils.util import strtobool as sb
 from requests import get
 from dotenv import load_dotenv
 from telethon.tl.functions.channels import JoinChannelRequest
@@ -10,6 +9,11 @@ from telethon.sync import TelegramClient, custom
 from telethon.sessions import StringSession
 from telethon.events import callbackquery, InlineQuery, NewMessage
 from math import ceil
+
+def strtobool(val):
+    return val.lower() in ("y", "yes", "t", "true", "on", "1")
+
+sb = strtobool
 
 load_dotenv("husu.env")
 basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s",  level=INFO)
