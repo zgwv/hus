@@ -1,6 +1,5 @@
 import sys, io, os, asyncio, pybase64
 from os import execl
-from PIL import Image
 from userbot import BOTLOG, BOTLOG_CHATID, CMD_HELP, bot
 from userbot.events import register
 from userbot.cmdhelp import CmdHelp
@@ -119,20 +118,7 @@ async def cevir(event):
     except:
         await event.edit(LANG['INVALID_COMMAND'])
         return
-    if islem == "foto":
-        rep_msg = await event.get_reply_message()
-        if not event.is_reply or not rep_msg.sticker:
-            await event.edit(LANG['NEED_REPLY'])
-            return
-        await event.edit(LANG['CONVERTING_TO_PHOTO'])
-        foto = io.BytesIO()
-        foto = await event.client.download_media(rep_msg.sticker, foto)
-        im = Image.open(foto).convert("RGB")
-        im.save("sticker.png", "png")
-        await event.client.send_file(event.chat_id, "sticker.png", reply_to=rep_msg, caption="@BrendUserBot `ilə fotoya çevrildi.`")
-        await event.delete()
-        os.remove("sticker.png")
-    elif islem == "mp3":
+    if islem == "mp3":
         rep_msg = await event.get_reply_message()
         if not event.is_reply or not rep_msg.video:
             await event.edit(LANG['NEED_VIDEO'])
