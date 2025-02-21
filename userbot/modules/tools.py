@@ -1,4 +1,4 @@
-import os, asyncio, emoji
+import os, asyncio
 import threading
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.channels import GetFullChannelRequest as getchat
