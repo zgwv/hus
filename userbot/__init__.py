@@ -1,7 +1,7 @@
 import os
 from re import compile
 from sys import version_info
-from logging import basicConfig, getLogger, INFO, DEBUG
+from logging import basicConfig, getLogger, INFO
 from requests import get
 from dotenv import load_dotenv
 from telethon.tl.functions.channels import JoinChannelRequest
@@ -19,7 +19,7 @@ load_dotenv("husu.env")
 basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s",  level=INFO)
 LOGS = getLogger(__name__)
 
-BREND_VERSION = "v5"
+BREND_VERSION = "V5"
 API_ID = int(os.environ.get("API_KEY", "1558926"))
 API_HASH = os.environ.get("API_HASH", "69c4c16e17e9f637818f2cfce8f9bce5")
 BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
@@ -52,11 +52,11 @@ if not LANGUAGE in ["AZ"]:
     LOGS.info("Naməlum bir dil yazdınız. Buna görə AZ istifadə olunur.")
     LANGUAGE = "AZ"
 
-WHITELIST = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/whitelist.json').json()
-SUPPORT = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/support.json').json()
-HUSU = get('https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/husu.json').json()
+WHITELIST = get('https://gitlab.com/husudu/userbot/-/raw/master/whitelist.json').json()
+SUPPORT = get('https://gitlab.com/husudu/userbot/-/raw/master/support.json').json()
+HUSU = get('https://gitlab.com/husudu/userbot/-/raw/master/husu.json').json()
 
-SUP = [-1001549365260]
+SUP = -1001549365260
 BRAIN_CHECKER = []
 
 if STRING_SESSION:
@@ -67,7 +67,7 @@ else:
 if os.path.exists("brend.check"):
     os.remove("brend.check")
 
-URL = 'https://gitlab.com/brenduserbot/brend-userbot/-/raw/master/brend.check'
+URL = 'https://gitlab.com/husudu/userbot/-/raw/master/brend.check'
 with open('brend.check', 'wb') as load:
     load.write(get(URL).content)
 
@@ -110,7 +110,7 @@ def butonla(sehife, modullar):
 with bot:
     try:
         bot(JoinChannelRequest("@BrendUserbot"))
-        bot(JoinChannelRequest("@BrendSupport"))
+        bot(JoinChannelRequest("@BrendSUP"))
     except:
         pass
 
