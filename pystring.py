@@ -11,7 +11,7 @@ def main():
     client.start()
  
     string_session = client.session.save()
-    print(f'\nString session: {string_session}\n')
+    print(f'\nAşağıdakı string sessionu kopyalayın:\n\n {string_session}\n')
 
 if __name__ == "__main__":
     main()
