@@ -12,7 +12,7 @@ class Warns(BASE):
     num_warn = Column(Integer, default=0)
 
     def __init__(self, user_id, num_warn):
-        self.user_id = user_id  # ensure string
+        self.user_id = user_id
         self.num_warn = num_warn
 
     def __repr__(self):
@@ -26,26 +26,26 @@ class Warns(BASE):
 
 Warns.__table__.create(checkfirst=True)
 
-KOMUT_INSERTION_LOCK = threading.RLock()
+EMR_INSERTION_LOCK = threading.RLock()
 
-def ekle_warn(userid):
-    with KOMUT_INSERTION_LOCK:
+def elave_warn(userid):
+    with EMR_INSERTION_LOCK:
         try:
-            UYARI = SESSION.query(Warns).filter(Warns.user_id == userid).first()
-            wsayi = int(UYARI.num_warn)
+            DIQQET = SESSION.query(Warns).filter(Warns.user_id == userid).first()
+            wsayi = int(DIQQET.num_warn)
             SESSION.query(Warns).filter(Warns.user_id == userid).delete()
         except:
             wsayi =  0
 
         wsayi += 1
-        komut = Warns(userid, wsayi)
-        SESSION.merge(komut)
+        emr = Warns(userid, wsayi)
+        SESSION.merge(emr)
         SESSION.commit()
 
 def getir_warn(userid):
     try:
-        UYARI = SESSION.query(Warns).filter(Warns.user_id == userid).first()
-        return UYARI.num_warn
+        DIQQET = SESSION.query(Warns).filter(Warns.user_id == userid).first()
+        return DIQQET.num_warn
     except:
         return 0
     
@@ -58,8 +58,8 @@ def sil_warn(userid):
         nsayi = wsayi - 1
         SESSION.query(Warns).filter(Warns.user_id == userid).delete()
 
-        uyari = Warns(userid, nsayi)
-        SESSION.merge(uyari)
+        diqqet = Warns(userid, nsayi)
+        SESSION.merge(diqqet)
         SESSION.commit()
         return True
     except:
@@ -68,8 +68,8 @@ def sil_warn(userid):
 
 def toplu_sil_warn(userid):
     try:
-        uyari = Warns(userid, 0)
-        SESSION.merge(uyari)
+        diqqet = Warns(userid, 0)
+        SESSION.merge(diqqet)
         SESSION.commit()
     except:
         return False
