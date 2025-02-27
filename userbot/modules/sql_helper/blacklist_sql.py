@@ -12,7 +12,7 @@ class BlackListFilters(BASE):
     trigger = Column(UnicodeText, primary_key=True, nullable=False)
 
     def __init__(self, chat_id, trigger):
-        self.chat_id = str(chat_id)  # ensure string
+        self.chat_id = chat_id
         self.trigger = trigger
 
     def __repr__(self):
@@ -33,19 +33,19 @@ CHAT_BLACKLISTS = {}
 
 def add_to_blacklist(chat_id, trigger):
     with BLACKLIST_FILTER_INSERTION_LOCK:
-        blacklist_filt = BlackListFilters(str(chat_id), trigger)
+        blacklist_filt = BlackListFilters(chat_id, trigger)
 
-        SESSION.merge(blacklist_filt)  # merge to avoid duplicate key issues
+        SESSION.merge(blacklist_filt)
         SESSION.commit()
-        CHAT_BLACKLISTS.setdefault(str(chat_id), set()).add(trigger)
+        CHAT_BLACKLISTS.setdefault(chat_id, set()).add(trigger)
 
 
 def rm_from_blacklist(chat_id, trigger):
     with BLACKLIST_FILTER_INSERTION_LOCK:
-        blacklist_filt = SESSION.query(BlackListFilters).get((str(chat_id), trigger))
+        blacklist_filt = SESSION.query(BlackListFilters).get((chat_id, trigger))
         if blacklist_filt:
-            if trigger in CHAT_BLACKLISTS.get(str(chat_id), set()):  # sanity check
-                CHAT_BLACKLISTS.get(str(chat_id), set()).remove(trigger)
+            if trigger in CHAT_BLACKLISTS.get(chat_id, set()):  # sanity check
+                CHAT_BLACKLISTS.get(chat_id, set()).remove(trigger)
 
             SESSION.delete(blacklist_filt)
             SESSION.commit()
@@ -56,7 +56,7 @@ def rm_from_blacklist(chat_id, trigger):
 
 
 def get_chat_blacklist(chat_id):
-    return CHAT_BLACKLISTS.get(str(chat_id), set())
+    return CHAT_BLACKLISTS.get(chat_id, set())
 
 
 def num_blacklist_filters():
@@ -68,7 +68,7 @@ def num_blacklist_filters():
 
 def num_blacklist_chat_filters(chat_id):
     try:
-        return SESSION.query(BlackListFilters.chat_id).filter(BlackListFilters.chat_id == str(chat_id)).count()
+        return SESSION.query(BlackListFilters.chat_id).filter(BlackListFilters.chat_id == chat_id).count()
     finally:
         SESSION.close()
 
