@@ -12,7 +12,7 @@ class Mute(BASE):
     sender = Column(String(14), primary_key=True)
 
     def __init__(self, chat_id, sender):
-        self.chat_id = str(chat_id)  # ensure string
+        self.chat_id = chat_id
         self.sender = str(sender)
 
 
@@ -21,7 +21,7 @@ Mute.__table__.create(checkfirst=True)
 
 def is_muted(chat_id):
     try:
-        return SESSION.query(Mute).filter(Mute.chat_id == str(chat_id)).all()
+        return SESSION.query(Mute).filter(Mute.chat_id == chat_id).all()
     except BaseException:
         return None
     finally:
@@ -29,13 +29,13 @@ def is_muted(chat_id):
 
 
 def mute(chat_id, sender):
-    adder = Mute(str(chat_id), str(sender))
+    adder = Mute(chat_id, str(sender))
     SESSION.add(adder)
     SESSION.commit()
 
 
 def unmute(chat_id, sender):
-    rem = SESSION.query(Mute).get(((str(chat_id)), (str(sender))))
+    rem = SESSION.query(Mute).get(((chat_id), (str(sender))))
     if rem:
         SESSION.delete(rem)
         SESSION.commit()
