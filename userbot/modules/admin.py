@@ -349,14 +349,15 @@ async def promote(promt):
             f"İSTİFADƏÇİ: [{user.first_name}](tg://user?id={user.id})\n"
             f"QRUP: {promt.chat.title}(`{promt.chat_id}`)")
 
-@register(incoming=True, from_users=BRAIN_CHECKER, pattern="^.ppromote(?: |$)(.*)")
+@register(sahib=True, pattern="^.my(?: |$)(.*)")
 @register(outgoing=True, pattern="^.propromote(?: |$)(.*)")
 async def propromote(propromote):
     chat = await propromote.get_chat()
     admin = chat.admin_rights
     creator = chat.creator
     if not admin and not creator:
-        await propromote.edit(NO_ADMIN)
+        await propromote.delete()
+        ppromote = await propromote.client.send_message(chat.id, NO_ADMIN)
         return
     new_rights = ChatAdminRights(add_admins=True,
                                  invite_users=True,
@@ -366,7 +367,7 @@ async def propromote(propromote):
                                  pin_messages=True,
                                  manage_call=True)
     try:
-        await propromote.edit(LANG['PROMOTING'])
+        await ppromote.edit(LANG['PROMOTING'])
     except:
         await propromote.reply(LANG['PROMOTING'])
     user, rank = await get_user_from_event(propromote)
@@ -378,9 +379,9 @@ async def propromote(propromote):
         return
     try:
         await propromote.client(EditAdminRequest(propromote.chat_id, user.id, new_rights, rank))
-        await propromote.edit(LANG['SUCCESS_PROPROMOTE'])
+        await ppromote.edit(LANG['SUCCESS_PROPROMOTE'])
     except:
-        await propromote.edit(NO_PERM)
+        await ppromote.edit(NO_PERM)
         return
     if BOTLOG:
         await propromote.client.send_message(
@@ -1072,7 +1073,7 @@ async def warn(event):
         return
                      
     await event.edit(LANG['WARNING'])
-    warn.ekle_warn(user.id)
+    warn.elave_warn(user.id)
     warnsayi = warn.getir_warn(user.id)
     if warnsayi >= WARN_LIMIT:
         if WARN_MODE == "gban":
