@@ -8,49 +8,49 @@ except ImportError:
 
 class Mesajlar(BASE):
     __tablename__ = "mesaj"
-    komut = Column(UnicodeText, primary_key=True, nullable=False)
+    emr = Column(UnicodeText, primary_key=True, nullable=False)
     mesaj = Column(UnicodeText, primary_key=True, nullable=False)
 
-    def __init__(self, komut, mesaj):
-        self.komut = komut  # ensure string
+    def __init__(self, emr, mesaj):
+        self.emr = emr
         self.mesaj = mesaj
 
     def __repr__(self):
-        return "<Mesaj '%s' için %s>" % (self.komut, self.mesaj)
+        return "<Mesaj '%s' üçün %s>" % (self.emr, self.mesaj)
 
     def __eq__(self, other):
         return bool(isinstance(other, Mesajlar)
-                    and self.komut == other.komut
+                    and self.emr == other.emr
                     and self.mesaj == other.mesaj)
 
 
 Mesajlar.__table__.create(checkfirst=True)
 
-KOMUT_INSERTION_LOCK = threading.RLock()
+EMR_INSERTION_LOCK = threading.RLock()
 
-def ekle_mesaj(komut, mesaj):
-    with KOMUT_INSERTION_LOCK:
+def elave_mesaj(emr, mesaj):
+    with EMR_INSERTION_LOCK:
         try:
-            SESSION.query(Mesajlar).filter(Mesajlar.komut == komut).delete()
+            SESSION.query(Mesajlar).filter(Mesajlar.emr == emr).delete()
         except:
             pass
 
-        komut = Mesajlar(komut, mesaj)
-        SESSION.merge(komut)
+        emr = Mesajlar(emr, mesaj)
+        SESSION.merge(emr)
         SESSION.commit()
 
 
-def getir_mesaj(komu):
+def getir_mesaj(em):
     try:
-        MESAJ = SESSION.query(Mesajlar).filter(Mesajlar.komut == komu).first()
+        MESAJ = SESSION.query(Mesajlar).filter(Mesajlar.emr == em).first()
         return MESAJ.mesaj
     except:
         return False
     
 
-def sil_mesaj(komu):
+def sil_mesaj(em):
     try:
-        SESSION.query(Mesajlar).filter(Mesajlar.komut == komu).delete()
+        SESSION.query(Mesajlar).filter(Mesajlar.emr == em).delete()
         SESSION.commit()
     except Exception as e:
         return e
