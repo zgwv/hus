@@ -14,7 +14,7 @@ class Goodbye(BASE):
     f_mesg_id = Column(Numeric)
 
     def __init__(self, chat_id, previous_goodbye, reply, f_mesg_id):
-        self.chat_id = str(chat_id)
+        self.chat_id = chat_id
         self.previous_goodbye = previous_goodbye
         self.reply = reply
         self.f_mesg_id = f_mesg_id
@@ -25,7 +25,7 @@ Goodbye.__table__.create(checkfirst=True)
 
 def get_goodbye(chat_id):
     try:
-        return SESSION.query(Goodbye).get(str(chat_id))
+        return SESSION.query(Goodbye).get(chat_id)
     finally:
         SESSION.close()
 
@@ -33,7 +33,7 @@ def get_goodbye(chat_id):
 def get_current_goodbye_settings(chat_id):
     try:
         return SESSION.query(Goodbye).filter(
-            Goodbye.chat_id == str(chat_id)).one()
+            Goodbye.chat_id == chat_id).one()
     except BaseException:
         return None
     finally:
@@ -48,7 +48,7 @@ def add_goodbye_setting(chat_id, previous_goodbye, reply, f_mesg_id):
         SESSION.commit()
         return True
     else:
-        rem = SESSION.query(Goodbye).get(str(chat_id))
+        rem = SESSION.query(Goodbye).get(chat_id)
         SESSION.delete(rem)
         SESSION.commit()
         adder = Goodbye(chat_id, previous_goodbye, reply, f_mesg_id)
@@ -58,7 +58,7 @@ def add_goodbye_setting(chat_id, previous_goodbye, reply, f_mesg_id):
 
 def rm_goodbye_setting(chat_id):
     try:
-        rem = SESSION.query(Goodbye).get(str(chat_id))
+        rem = SESSION.query(Goodbye).get(chat_id)
         if rem:
             SESSION.delete(rem)
             SESSION.commit()
@@ -68,6 +68,6 @@ def rm_goodbye_setting(chat_id):
 
 
 def update_previous_goodbye(chat_id, previous_goodbye):
-    row = SESSION.query(Goodbye).get(str(chat_id))
+    row = SESSION.query(Goodbye).get(chat_id)
     row.previous_goodbye = previous_goodbye
     SESSION.commit()
