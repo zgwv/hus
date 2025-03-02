@@ -13,7 +13,7 @@ class Filters(BASE):
     f_mesg_id = Column(Numeric)
 
     def __init__(self, chat_id, keyword, reply, f_mesg_id):
-        self.chat_id = str(chat_id)
+        self.chat_id = chat_id
         self.keyword = keyword
         self.reply = reply
         self.f_mesg_id = f_mesg_id
@@ -29,7 +29,7 @@ Filters.__table__.create(checkfirst=True)
 
 def get_filter(chat_id, keyword):
     try:
-        return SESSION.query(Filters).get((str(chat_id), keyword))
+        return SESSION.query(Filters).get((chat_id, keyword))
     finally:
         SESSION.close()
 
@@ -37,7 +37,7 @@ def get_filter(chat_id, keyword):
 def get_filters(chat_id):
     try:
         return SESSION.query(Filters).filter(
-            Filters.chat_id == str(chat_id)).all()
+            Filters.chat_id == chat_id).all()
     finally:
         SESSION.close()
 
@@ -45,15 +45,15 @@ def get_filters(chat_id):
 def add_filter(chat_id, keyword, reply, f_mesg_id):
     to_check = get_filter(chat_id, keyword)
     if not to_check:
-        adder = Filters(str(chat_id), keyword, reply, f_mesg_id)
+        adder = Filters(chat_id, keyword, reply, f_mesg_id)
         SESSION.add(adder)
         SESSION.commit()
         return True
     else:
-        rem = SESSION.query(Filters).get((str(chat_id), keyword))
+        rem = SESSION.query(Filters).get((chat_id, keyword))
         SESSION.delete(rem)
         SESSION.commit()
-        adder = Filters(str(chat_id), keyword, reply, f_mesg_id)
+        adder = Filters(chat_id, keyword, reply, f_mesg_id)
         SESSION.add(adder)
         SESSION.commit()
         return False
@@ -64,7 +64,7 @@ def remove_filter(chat_id, keyword):
     if not to_check:
         return False
     else:
-        rem = SESSION.query(Filters).get((str(chat_id), keyword))
+        rem = SESSION.query(Filters).get((chat_id, keyword))
         SESSION.delete(rem)
         SESSION.commit()
         return True
