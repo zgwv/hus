@@ -10,7 +10,7 @@ class PMPermit(BASE):
     chat_id = Column(String(14), primary_key=True)
 
     def __init__(self, chat_id):
-        self.chat_id = str(chat_id)  # ensure string
+        self.chat_id = chat_id
 
 
 PMPermit.__table__.create(checkfirst=True)
@@ -19,7 +19,7 @@ PMPermit.__table__.create(checkfirst=True)
 def is_approved(chat_id):
     try:
         return SESSION.query(PMPermit).filter(
-            PMPermit.chat_id == str(chat_id)).one()
+            PMPermit.chat_id == chat_id).one()
     except BaseException:
         return None
     finally:
@@ -27,13 +27,13 @@ def is_approved(chat_id):
 
 
 def approve(chat_id):
-    adder = PMPermit(str(chat_id))
+    adder = PMPermit(chat_id)
     SESSION.add(adder)
     SESSION.commit()
 
 
 def dissprove(chat_id):
-    rem = SESSION.query(PMPermit).get(str(chat_id))
+    rem = SESSION.query(PMPermit).get(chat_id)
     if rem:
         SESSION.delete(rem)
         SESSION.commit()
