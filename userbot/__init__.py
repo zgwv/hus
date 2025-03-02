@@ -15,7 +15,13 @@ def strtobool(val):
 
 sb = strtobool
 
-load_dotenv("husu.env")
+husu_env = os.path.expanduser("~/husu.env")
+
+if os.path.exists(husu_env):
+    load_dotenv(husu_env)
+else:
+    print("XƏTA: husu.env faylı tapılmadı!")
+
 basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s",  level=INFO)
 LOGS = getLogger(__name__)
 
