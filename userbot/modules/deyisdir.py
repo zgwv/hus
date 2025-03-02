@@ -19,7 +19,7 @@ async def deyisdir(event):
     else:
         mesaj = []
     plugin = plugin.strip()
-    NOVLER = ["afk", "alive", "alives", "pm", "kickme", "dızcı", "ban", "mute", "approve", "tagsleep", "disapprove", "block"]
+    NOVLER = ["afk", "alive", "alives", "pm", "kickme", "ban", "mute", "approve", "tagsleep", "disapprove", "block"]
     if type(mesaj) == list:
         if plugin in NOVLER:
             if event.is_reply:
@@ -27,10 +27,10 @@ async def deyisdir(event):
                 if reply.media:
                     mesaj = await reply.forward_to(PLUGIN_ID)
                     PLUGIN_MESAJLAR[plugin] = reply
-                    sql.ekle_mesaj(plugin, f"MEDYA_{mesaj.id}")
+                    sql.elave_mesaj(plugin, f"MEDYA_{mesaj.id}")
                     return await event.edit(f"🆕 `{plugin}` {LANG['SETTED_MEDIA']}")
                 PLUGIN_MESAJLAR[plugin] = reply.text
-                sql.ekle_mesaj(plugin, reply.text)
+                sql.elave_mesaj(plugin, reply.text)
                 return await event.edit(f"🆕 `{plugin}` {LANG['SETTED_REPLY']}")   
 
             silme = sql.sil_mesaj(plugin)
@@ -40,7 +40,7 @@ async def deyisdir(event):
             else:
                 await event.edit(f"{LANG['ERROR_DELETED']}: `{silme}`")
         else:
-            await event.edit(LANG['NOT_FOUND'] + ":`afk/alive/alives/pm/kickme/dızcı/ban/mute/approve/tagsleep/disapprove/block`")
+            await event.edit(LANG['NOT_FOUND'] + ":`afk/alive/alives/pm/kickme/ban/mute/approve/tagsleep/disapprove/block`")
     elif len(plugin) < 1:
         await event.edit(LANG['USAGE'])
     elif type(mesaj) == str:
@@ -50,13 +50,13 @@ async def deyisdir(event):
                 return
             else:
                 PLUGIN_MESAJLAR[plugin] = mesaj
-                sql.ekle_mesaj(plugin, mesaj)
+                sql.elave_mesaj(plugin, mesaj)
                 await event.edit(LANG['SETTED'].format(plu=plugin, msj=mesaj))
         else:
-            await event.edit(LANG['NOT_FOUND'] + ":`afk/alive/alives/pm/kickme/dızcı/ban/mute/approve/tagsleep/disapprove/block`")
+            await event.edit(LANG['NOT_FOUND'] + ":`afk/alive/alives/pm/kickme/ban/mute/approve/tagsleep/disapprove/block`")
 
 CmdHelp('change').add_command('change və ya d[eə]yi[sş]dir', '<modul> <mesaj və ya cavab>', 'Dəyişdir əmri, botdakı plugin mesajlarını dəyişdirmənizə yarayır. Əgər mesaj yazmasanız Plugin mesajını orijinal vəziyyətinə qaytarar.').add_info(
-    '**Dəyişəbilən Pluginlər:** `afk/alive/alives/pm/kickme/dızcı/ban/mute/approve/tagsleep/disapprove/block`\n\
+    '**Dəyişəbilən Pluginlər:** `afk/alive/alives/pm/kickme/ban/mute/approve/tagsleep/disapprove/block`\n\
 **Alive Dəyişənləri:** `{plugin}, {telethon}, {brend}, {python}`\n\
 **Ban/Mute Dəyişənləri:** `{id}, {username}, {first_name}, {last_name}, {mention}, {date}, {count}`\n\
 **AFK Dəyişənləri:** `{username}, {mention}, {first_name}, {last_name}, {last_seen_seconds}, {last_seen}, {last_seen_long}`\n\
