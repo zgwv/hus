@@ -45,9 +45,9 @@ class CmdHelp:
 
         result = f"**📂 Fayl:** `{self.FILE}`\n"
         if self.WARNING == '' and self.INFO == '':
-            result += f"**✅ Rəsmi:** {'✅' if self.IS_OFFICIAL else '❌'}\n\n"
+            result += f"**⚡ Status:** {'✅ Rəsmi' if self.IS_OFFICIAL else '❌ Qeyri-Rəsmi'}\n\n"
         else:
-            result += f"**✅ Rəsmi:** {'✅' if self.IS_OFFICIAL else '❌'}\n"
+            result += f"**⚡ Status:** {'✅ Rəsmi' if self.IS_OFFICIAL else '❌ Qeyri-Rəsmi'}\n"
             
             if self.INFO == '':
                 if not self.WARNING == '':
@@ -55,20 +55,20 @@ class CmdHelp:
             else:
                 if not self.WARNING == '':
                     result += f"**⚠️ Diqqət:** {self.WARNING}\n"
-                result += f"**❔ Məlumat:** {self.INFO}\n\n"
+                result += f"**ℹ️ Məlumat:** {self.INFO}\n\n"
                      
         for command in self.COMMANDS:
             command = self.COMMANDS[command]
             if command['params'] == None:
-                result += f"**🛠 Əmr:** `{PATTERNS[:1]}{command['command']}`\n"
+                result += f"**🕹️ Əmr:** `{PATTERNS[:1]}{command['command']}`\n"
             else:
-                result += f"**🛠 Əmr:** `{PATTERNS[:1]}{command['command']} {command['params']}`\n"
+                result += f"**🕹️ Əmr:** `{PATTERNS[:1]}{command['command']} {command['params']}`\n"
                 
             if command['example'] == None:
-                result += f"**ℹ️ Haqqında:** `{command['usage']}`\n\n"
+                result += f"** Haqqında:** `{command['usage']}`\n\n"
             else:
-                result += f"**ℹ️ Haqqında:** `{command['usage']}`\n"
-                result += f"**⌨️ Nümunə:** `{PATTERNS[:1]}{command['example']}`\n\n"
+                result += f"**📖 Haqqında:** `{command['usage']}`\n"
+                result += f"**🔎 Nümunə:** `{PATTERNS[:1]}{command['example']}`\n\n"
         return result
 
     def add(self):
@@ -78,7 +78,7 @@ class CmdHelp:
     
     def getText(self, text : str):
         if text == 'REPLY_OR_USERNAME':
-            return '<istifadəçi adı> <şəxsi ad/cavablama>'
+            return '<istifadəçi adı> <etiketləmək/cavablamaq>'
         elif text == 'OR':
             return 'və ya'
         elif text == 'USERNAMES':
