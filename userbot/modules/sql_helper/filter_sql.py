@@ -10,7 +10,7 @@ class Filters(BASE):
     chat_id = Column(String(14), primary_key=True)
     keyword = Column(UnicodeText, primary_key=True, nullable=False)
     reply = Column(UnicodeText)
-    f_mesg_id = Column(Numeric)
+    f_mesg_id = Column(UnicodeText)
 
     def __init__(self, chat_id, keyword, reply, f_mesg_id):
         self.chat_id = chat_id
