@@ -43,11 +43,11 @@ class CmdHelp:
 
     def get_result(self):
 
-        result = f"**📂 Fayl:** `{self.FILE}`\n"
+        result = f"**🧩 Modul:** `{self.FILE}`\n"
         if self.WARNING == '' and self.INFO == '':
-            result += f"**⚡ Status:** {'✅ Rəsmi' if self.IS_OFFICIAL else '❌ Qeyri-Rəsmi'}\n\n"
+            result += f"**⚡ Status:** {'✅ Təsdiqləndi' if self.IS_OFFICIAL else '❌ Təsdiqlənmədi'}\n\n"
         else:
-            result += f"**⚡ Status:** {'✅ Rəsmi' if self.IS_OFFICIAL else '❌ Qeyri-Rəsmi'}\n"
+            result += f"**⚡ Status:** {'✅ Təsdiqləndi' if self.IS_OFFICIAL else '❌ Təsdiqlənmədi'}\n"
             
             if self.INFO == '':
                 if not self.WARNING == '':
