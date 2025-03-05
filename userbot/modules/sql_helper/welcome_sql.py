@@ -3,7 +3,7 @@ try:
 except ImportError:
     raise AttributeError
 
-from sqlalchemy import BigInteger, Column, Numeric, String, UnicodeText
+from sqlalchemy import BigInteger, Column, String, UnicodeText
 
 
 class Welcome(BASE):
@@ -11,7 +11,7 @@ class Welcome(BASE):
     chat_id = Column(String(14), primary_key=True)
     previous_welcome = Column(BigInteger)
     reply = Column(UnicodeText)
-    f_mesg_id = Column(Numeric)
+    f_mesg_id = Column(UnicodeText)
 
     def __init__(self, chat_id, previous_welcome, reply, f_mesg_id):
         self.chat_id = chat_id
