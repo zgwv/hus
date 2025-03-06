@@ -1,7 +1,7 @@
 from random import randint
 from asyncio import sleep
-from telethon.events import StopPropagation
-from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, PM_AUTO_BAN
+from telethon.events import StopPropagation, NewMessage as nm
+from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, PM_AUTO_BAN, bot as b
 from userbot.events import register
 from userbot.main import PLUGIN_MESAJLAR
 from time import time
@@ -22,7 +22,7 @@ def vaxtlar(seconds, short=True):
     tmp = ((str(days) + (" gün, " if not short else "g, ")) if days else "") + \
         ((str(hours) + (" saat, " if not short else "s, ")) if hours else "") + \
         ((str(minutes) + (" dəqiqə, " if not short else "d, ")) if minutes else "") + \
-        ((str(seconds) + (" saniyə, " if not short else "s, ")) if seconds else "")
+        ((str(seconds) + (" saniyə " if not short else "s, ")) if seconds else "")
     return tmp[:-2] + " əvvəl"
 
 @register(incoming=True, disable_errors=True, disable_edited=True)
@@ -263,7 +263,7 @@ async def set_afk(afk_e):
     raise StopPropagation
 
 
-@register(outgoing=True)
+@b.on(nm(outgoing=True))  
 async def type_afk_is_not_true(notafk):
     global ISAFK
     global COUNT_MSG
@@ -277,8 +277,7 @@ async def type_afk_is_not_true(notafk):
             await notafk.client.send_message(BOTLOG_CHATID, f"Siz AFK olarkən {len(USERS)} nəfər sizə {COUNT_MSG} mesaj göndərdi.",)
             for i in USERS:
                 name = await notafk.client.get_entity(i)
-                name0 = "name.first_name"
-                await notafk.client.send_message(BOTLOG_CHATID, f"[{name0}](tg://user?id=i) sizə {USERS[i]} mesaj göndərdi")
+                await notafk.client.send_message(BOTLOG_CHATID, f"[{name.first_name}](tg://user?id=i) sizə {USERS[i]} mesaj göndərdi")
         COUNT_MSG = 0
         USERS = {}
         AFKREASON = None
