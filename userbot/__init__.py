@@ -25,8 +25,8 @@ else:
 basicConfig(format="%(asctime)s - @BrendUserBot - %(levelname)s - %(message)s",  level=INFO)
 LOGS = getLogger(__name__)
 
-BREND_VERSION = "V5"
-API_ID = int(os.environ.get("API_KEY", "1558926"))
+BREND_VERSION = "V6.9.3"
+API_ID = int(os.environ.get("API_ID", "1558926"))
 API_HASH = os.environ.get("API_HASH", "69c4c16e17e9f637818f2cfce8f9bce5")
 BOT_TOKEN = os.environ.get("BOT_TOKEN", None)
 BOT_USERNAME = os.environ.get("BOT_USERNAME", None)
@@ -56,13 +56,13 @@ CMD_HELP_BOT = {}
 LANGUAGE = os.environ.get("LANGUAGE", "AZ").upper()
 if not LANGUAGE in ["AZ"]:
     LOGS.info("Naməlum bir dil yazdınız. Buna görə AZ istifadə olunur.")
-    LANGUAGE = "AZ"
+    LANGUAGE = "DEFAULT"
 
 WHITELIST = get('https://gitlab.com/husudu/userbot/-/raw/master/whitelist.json').json()
 SUPPORT = get('https://gitlab.com/husudu/userbot/-/raw/master/support.json').json()
 HUSU = get('https://gitlab.com/husudu/userbot/-/raw/master/husu.json').json()
 
-SUP = -1001549365260
+SUP = [-1001549365260]
 BRAIN_CHECKER = []
 
 if STRING_SESSION:
