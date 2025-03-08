@@ -1,6 +1,6 @@
 from random import randint
 from asyncio import sleep
-from telethon.events import StopPropagation, NewMessage as nm
+from telethon.events import StopPropagation, NewMessage as n
 from userbot import CMD_HELP, BOTLOG, BOTLOG_CHATID, PM_AUTO_BAN, bot as b
 from userbot.events import register
 from userbot.main import PLUGIN_MESAJLAR
@@ -262,8 +262,10 @@ async def set_afk(afk_e):
     ISAFK = True
     raise StopPropagation
 
-
-@b.on(nm(outgoing=True))  
+#indiyədək bir cındır oğlu cındır peysər 
+#düzəltməmişdi bu xətanı. İndi kimsə 
+#kopyalasa varyoxuna girib çıxacam.
+@b.on(n(outgoing=True))  
 async def type_afk_is_not_true(notafk):
     global ISAFK
     global COUNT_MSG
