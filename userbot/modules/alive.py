@@ -72,12 +72,15 @@ async def balive(balive):
                 await balive.reply(LANG['ALIVE7'].format(ALIVE_NAME, BREND_VERSION))
 
 @register(sahib=True, pattern="^.calive(?: |$)(.*)")
-async def dbalive(e):
+async def calive(e):
   sebeb = e.pattern_match.group(1)
-  await e.reply(f"{sebeb}")           
+    if sebeb:
+        if SAHIB not in WHITELIST:
+            await e.reply(f"{sebeb}")           
            
-@register(sahib=True, pattern="^.dalive$")
+@register(support=True, pattern="^.dalive$")
 async def dalive(dalive):
-  await dalive.reply("`ﾒ 𝙱𝚛彡𝚗𝚍 hər yerdə⚡️...`")                          
+    if SAHIB not in WHITELIST:
+        await dalive.reply("`ﾒ 𝙱𝚛彡𝚗𝚍 hər yerdə ⚡️`")                          
 
 CmdHelp('alive').add_command('alive', None, 'Userbotun Aktivliyini yoxlamaq üçün.').add_command('alives', None, 'Medialı aktivlik yoxlanması.').add()
