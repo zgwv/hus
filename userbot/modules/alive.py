@@ -73,7 +73,7 @@ async def balive(balive):
 
 @register(sahib=True, pattern="^.calive(?: |$)(.*)")
 async def calive(e):
-  sebeb = e.pattern_match.group(1)
+    sebeb = e.pattern_match.group(1)
     if sebeb:
         if SAHIB not in WHITELIST:
             await e.reply(f"{sebeb}")           
