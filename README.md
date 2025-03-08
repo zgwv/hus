@@ -17,17 +17,13 @@
 
 **Android:** 
 
-` bash <(curl -L https://kutt.it/DM236S) `
+
 
 **iOS:**  
 
-`apk update && apk add bash && apk add curl && curl -L -o brend_installler.sh https://kutt.it/9TDz7X && chmod +x brend_installler.sh && bash brend_installler.sh`
-
-
 **Onlayn qurulum / Online Setup**
 
-[![Run on Repl.it](https://img.shields.io/badge/Repl.it-%230D101E.svg?)](https://replit.com/@Huseyn2003/brendinstaller)
-
+[![Run on Repl.it](https://img.shields.io/badge/Repl.it-%230D101E.svg?)]()
 
 ## Kömək qrupumuz / Brend Userbot Support
 ***Hər hansı problem və ya şikayətiniz varsa bizim [kömək qrupumuza](https://t.me/BrendSUP) yazın.***
