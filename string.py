@@ -1,8 +1,6 @@
+from userbot import API_ID, API_HASH
 from telethon.sync import TelegramClient
 from telethon.sessions import StringSession
-
-API_ID = 22590692
-API_HASH = '471eb17c98d58856d25827c1af6584f6'
 
 def main():
     print("Telefon nömrənizi yazın")
