@@ -22,7 +22,7 @@ def vaxtlar(seconds, short=True):
     tmp = ((str(days) + (" gün, " if not short else "g, ")) if days else "") + \
         ((str(hours) + (" saat, " if not short else "s, ")) if hours else "") + \
         ((str(minutes) + (" dəqiqə, " if not short else "d, ")) if minutes else "") + \
-        ((str(seconds) + (" saniyə " if not short else "s, ")) if seconds else "")
+        ((str(seconds) + (" saniyə, " if not short else "s, ")) if seconds else "")
     return tmp[:-2] + " əvvəl"
 
 @register(incoming=True, disable_errors=True, disable_edited=True)
